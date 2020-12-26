@@ -19,12 +19,6 @@ class Iam {
     this.libToken = configs.libToken || DEF_LIB_TOKEN;
     this.i18n = configs.i18n || DEF_I18N;
 
-    if (!this.i18n) {
-      this.log('error', 'I18n must be provided.');
-      process.kill(process.pid, 'SIGTERM');
-      return;
-    }
-
     if (!this.libToken) {
       this.log('error', `Lib token must be provided.`);
       process.kill(process.pid, 'SIGTERM');
