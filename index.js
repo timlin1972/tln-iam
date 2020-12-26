@@ -43,7 +43,7 @@ class Iam {
       i18n: this.i18n,
     });
 
-    this.log('info', this.i18n.t('inited'));
+    this.log('info', 'Initialized');
   }
 
   getSchema = () => this.graphql.getSchema();
@@ -76,10 +76,12 @@ class Iam {
     });
   }
 
-  log = (level=DEF_LEVEL, msg) => 
+  log = (level=DEF_LEVEL, msg) => {
+    const msgI18n = this.i18n ? this.i18n.t(msg) : msg;
     this.logger ? 
-      this.logger.log(MODULE_NAME, level, msg) :
-      console.log(`${level}: [${MODULE_NAME}] ${msg}`);
+      this.logger.log(MODULE_NAME, level, msgI18n) :
+      console.log(`${level}: [${MODULE_NAME}] ${msgI18n}`);
+  }
 
   toString = () => `[${MODULE_NAME}]\n\
     \tlogger: ${this.logger ? 'yes' : 'no'}\n\

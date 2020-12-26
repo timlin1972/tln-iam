@@ -43,12 +43,6 @@ class Graphql {
     this.iam = configs.iam || DEF_IAM;
     this.i18n = configs.i18n || DEF_I18N;
 
-    if (!this.i18n) {
-      this.log('error', 'I18n must be provided.');
-      process.kill(process.pid, 'SIGTERM');
-      return;
-    }
-
     //
     //  resolvers
     //
@@ -66,13 +60,15 @@ class Graphql {
       login: (_, { username, password }) => this.iam.validUser({ username, password }),
     };
 
-    this.log('info', this.i18n.t('inited'));
+    this.log('info', 'Initialized');
   }
 
-  log = (level=DEF_LEVEL, msg) => 
+  log = (level=DEF_LEVEL, msg) => {
+    const msgI18n = this.i18n ? this.i18n.t(msg) : msg;
     this.logger ? 
-      this.logger.log(MODULE_NAME, level, msg) :
-      console.log(`${level}: [${MODULE_NAME}] ${msg}`);
+      this.logger.log(MODULE_NAME, level, msgI18n) :
+      console.log(`${level}: [${MODULE_NAME}] ${msgI18n}`);
+  }
 
   getSchema = () => {
     return {
